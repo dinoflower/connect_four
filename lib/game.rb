@@ -8,11 +8,12 @@ class Game
     @board = Array.new(6) { Array.new(7) }
   end
 
-  def check_board(move)
-    return false unless play_tree(move) # something about lines
+  def player_input
+    row = gets.chomp
+    column = gets.chomp
+    legal_move = verify_input([row.to_i, column.to_i]) if row.match?(/^\d+$/) && column.to_i.match?(/^\d+$/)
+    return legal_move if legal_move
+
+    puts 'Input error! Please make a valid play.'
   end
 end
-
-# okay, you make a move and (if valid) it saves that move and its adjacent vertices
-# which means the move knows what's near it and whether that's occupied
-# and with what
