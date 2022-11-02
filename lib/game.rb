@@ -21,6 +21,7 @@ class Game
 
   def verify_input(row, column)
     return unless row.between?(0, 6) && column.between?(0, 7)
+    return if board[(row + 1)..].any? { |arr| arr[column].nil? }
 
     return [row, column] if board.dig(row, column).nil?
   end
