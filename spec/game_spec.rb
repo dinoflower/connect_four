@@ -103,11 +103,20 @@ describe Game do
     before do
       move_coord = [5, 3]
       allow(update_game).to receive(:player_input).and_return(move_coord)
+      allow(update_game).to receive(:update_play).with(move_coord)
     end
 
-    it 'updates the game board' do
-      expect { :update_play }.to change(update_game, :board)
+    it 'gets the move from the player' do
+      expect(update_game).to receive(:update_play).with([5, 3])
       update_game.update_board
+    end
+  end
+
+  describe '#update_play' do
+    subject(:update_game) { described_class.new }
+
+    it 'updates the game board' do
+      expect(update_game.update_play([5, 3])).to include('Y')
     end
   end
 end

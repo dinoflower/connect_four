@@ -4,7 +4,7 @@ require_relative 'player'
 
 # game portion of connect four
 class Game
-  attr_reader :board
+  attr_accessor :board
 
   def initialize
     @board = Array.new(6) { Array.new(7) }
