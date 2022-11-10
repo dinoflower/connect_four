@@ -96,4 +96,18 @@ describe Game do
       end
     end
   end
+
+  describe '#update_board' do
+    subject(:update_game) { described_class.new }
+
+    before do
+      move_coord = [5, 3]
+      allow(update_game).to receive(:player_input).and_return(move_coord)
+    end
+
+    it 'updates the game board' do
+      expect { :update_play }.to change(update_game, :board)
+      update_game.update_board
+    end
+  end
 end

@@ -25,4 +25,15 @@ class Game
 
     return [row, column] if board.dig(row, column).nil?
   end
+
+  # does the board need to be a class?
+  def update_board
+    puts 'Make your move!'
+    player_move = player_input
+    update_play(player_move)
+  end
+
+  def update_play(player_move)
+    @board[player_move[0]][player_move[1]] = 'Y'
+  end
 end
