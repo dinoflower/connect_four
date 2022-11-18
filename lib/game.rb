@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 require_relative 'player'
+require_relative 'board'
 
 # game portion of connect four
 class Game
-  attr_accessor :board
+  attr_reader :board
 
   def initialize
-    @board = Array.new(6) { Array.new(7) }
+    @board = Board.new
   end
 
   def create_player(color)
