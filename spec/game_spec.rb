@@ -1,8 +1,23 @@
 # frozen_string_literal: true
 
 require_relative '../lib/game'
+require_relative '../lib/player'
 
 describe Game do
+  describe '#create player' do
+    subject(:game_player) { described_class.new }
+
+    before do
+      name = 'Kaedi'
+      allow(game_player).to receive(:gets).and_return(name)
+    end
+
+    it 'create a player' do
+      expect(Player).to receive(:new).with('Kaedi', 'yellow')
+      game_player.create_player('yellow')
+    end
+  end
+
   describe '#player_input' do
     subject(:game_input) { described_class.new }
     let(:verify_board) { game_input.board }
@@ -120,18 +135,18 @@ describe Game do
     end
   end
 
-  describe '#check_winners' do
-    subject(:check_game) { described_class.new }
-    let(:check_board) { check_game.board }
+  # describe '#check_winners' do
+    # subject(:check_game) { described_class.new }
+    # let(:check_board) { check_game.board }
 
-    context 'when a player has four in a row' do
+    # context 'when a player has four in a row' do
       # before do
         # move_coord = [2, 3]
       # end
 
-      it 'declares a winner' do
-        expect(check_game.check_winners([2, 3])).to eq('Y')
-      end
-    end
-  end
+      # it 'declares a winner' do
+        # expect(check_game.check_winners([2, 3])).to eq('Y')
+      # end
+    # end
+  # end
 end

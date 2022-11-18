@@ -10,6 +10,12 @@ class Game
     @board = Array.new(6) { Array.new(7) }
   end
 
+  def create_player(color)
+    puts 'Please enter your name:'
+    name = gets.chomp.capitalize
+    Player.new(name, color)
+  end
+
   def player_input
     row = gets.chomp
     column = gets.chomp

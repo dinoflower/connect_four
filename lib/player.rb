@@ -4,9 +4,8 @@
 class Player
   ADJACENT_TILES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]].freeze
 
-  def initialize(game, color)
-    @game = game
+  def initialize(name, color)
+    @name = name
     @color = color
-    @board = game.board
   end
 end
