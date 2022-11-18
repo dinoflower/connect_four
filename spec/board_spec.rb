@@ -5,7 +5,6 @@ require_relative '../lib/board'
 describe Board do
   describe '#verify_input' do
     subject(:verify_board) { described_class.new }
-    # let(:verify_array) { verify_board.board_array }
 
     context 'when given an empty space on the board' do
       it 'returns the row and column as an array' do
