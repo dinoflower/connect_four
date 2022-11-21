@@ -8,7 +8,8 @@ class Game
   attr_accessor :board
 
   def initialize(game_board = Board.new)
-    @game_board = game_board
+    @board = game_board
+    @board_array = game_board.board_array
   end
 
   def create_player(color)
@@ -20,7 +21,7 @@ class Game
   def player_input
     row = gets.chomp
     column = gets.chomp
-    legal_move = @game_board.verify_input(row.to_i, column.to_i) if row.match?(/^\d+$/) && column.match?(/^\d+$/)
+    legal_move = @board.verify_input(row.to_i, column.to_i) if row.match?(/^\d+$/) && column.match?(/^\d+$/)
     return legal_move if legal_move
 
     puts 'Input error! Please make a valid play.'
@@ -33,7 +34,7 @@ class Game
   end
 
   def update_play(player_move)
-    @game_board[player_move[0]][player_move[1]] = 'Y'
+    @board_array[player_move[0]][player_move[1]] = 'Y'
   end
 
   def check_winners(array); end

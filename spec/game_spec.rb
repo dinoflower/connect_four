@@ -22,10 +22,19 @@ describe Game do
   describe '#player_input' do
     subject(:game_input) { described_class.new }
 
-    it 'sends the row and column to the board' do
-      game_board = instance_double('Board')
-      expect(game_board).to receive(:verify_input).once
-      game_input.player_input
+    context 'when the player enters two integers' do
+      before do
+        int_row = '15'
+        int_column = '3'
+        allow(game_input).to receive(:gets).and_return(int_row, int_column)
+      end
+
+      it 'sends the row and column to the board' do
+        game_board = instance_double('Board')
+        allow(game_board).to receive(:verify_input)
+        expect(game_board).to receive(:verify_input).once
+        game_input.player_input
+      end
     end
 
     context 'when the space exists, is empty, and is legal' do
@@ -42,33 +51,21 @@ describe Game do
       end
     end
 
-    context 'when the user inputs non-number values once and then valid values' do
+    
+
+    context 'when the user inputs an invalid move once, an illegal move once, and then a legal move' do
       before do
-        invalid_row = '!'
-        invalid_column = 'a'
-        valid_row = '5'
-        valid_column = '3'
-        allow(game_input).to receive(:gets).and_return(invalid_row, invalid_column, valid_row, valid_column)
+        invalid_r = '!'
+        invalid_c = 'a'
+        illegal_r = '5'
+        valid_c = '3'
+        valid_r = '4'
+        allow(game_input).to receive(:gets).and_return(invalid_r, invalid_c, illegal_r, valid_c, valid_r, valid_c)
       end
 
-      it 'completes loop and displays the error message once' do
+      it 'completes loop and displays the error message twice' do
         message = 'Input error! Please make a valid play.'
-        expect(game_input).to receive(:puts).with(message).once
-        game_input.player_input
-      end
-    end
-
-    context 'when the user inputs a valid but illegal move once and then a legal move' do
-      before do
-        invalid_row = '5'
-        valid_column = '3'
-        valid_row = '4'
-        allow(game_input).to receive(:gets).and_return(invalid_row, valid_column, valid_row, valid_column)
-      end
-
-      it 'completes loop and displays the error message once' do
-        message = 'Input error! Please make a valid play.'
-        expect(game_input).to receive(:puts).with(message).once
+        expect(game_input).to receive(:puts).with(message).twice
         game_input.player_input
       end
     end
@@ -94,6 +91,7 @@ describe Game do
 
     it 'updates the game board' do
       expect(update_game.update_play([5, 3])).to include('Y')
+      update_game.update_play([5, 3])
     end
   end
 
