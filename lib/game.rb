@@ -38,11 +38,7 @@ class Game
   def update_board
     puts 'Make your move!'
     player_move = player_input
-    update_play(player_move)
-  end
-
-  def update_play(player_move)
-    @board_array[player_move[0]][player_move[1]] = 'Y'
+    @board.save_play(player_move)
   end
 
   def check_winners(array); end

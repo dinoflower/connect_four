@@ -73,26 +73,16 @@ describe Game do
   end
 
   describe '#update_board' do
-    subject(:update_game) { described_class.new }
+    let(:save_board) { instance_double(Board, board_array: Array.new(6) { Array.new(7) }) }
+    subject(:update_game) { described_class.new(save_board) }
 
     before do
-      move_coord = [5, 3]
-      allow(update_game).to receive(:player_input).and_return(move_coord)
-      allow(update_game).to receive(:update_play).with(move_coord)
+      allow(update_game).to receive(:player_input).and_return([5, 3])
     end
 
-    it 'gets the move from the player' do
-      expect(update_game).to receive(:update_play).with([5, 3])
+    it 'sends the move to the board' do
+      expect(save_board).to receive(:save_play).with([5, 3])
       update_game.update_board
-    end
-  end
-
-  describe '#update_play' do
-    subject(:update_game) { described_class.new }
-
-    it 'updates the game board' do
-      expect(update_game.update_play([5, 3])).to include('Y')
-      update_game.update_play([5, 3])
     end
   end
 
