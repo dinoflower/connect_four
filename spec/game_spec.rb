@@ -85,19 +85,4 @@ describe Game do
       update_game.update_board
     end
   end
-
-  # describe '#check_winners' do
-    # subject(:check_game) { described_class.new }
-    # let(:check_board) { check_game.board }
-
-    # context 'when a player has four in a row' do
-      # before do
-        # move_coord = [2, 3]
-      # end
-
-      # it 'declares a winner' do
-        # expect(check_game.check_winners([2, 3])).to eq('Y')
-      # end
-    # end
-  # end
 end

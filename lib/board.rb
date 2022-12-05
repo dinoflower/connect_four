@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 require_relative 'game'
+require_relative 'player'
 
 # board to store and display connect four game
 class Board
+  ROWS = 6
+  COLUMNS = 7
   attr_accessor :board_array
 
   def initialize
-    @board_array = Array.new(6) { Array.new(7) }
+    @board_array = Array.new(ROWS) { Array.new(COLUMNS) }
   end
 
   def check_board(row, column)
@@ -19,4 +22,9 @@ class Board
   def save_play(player_move)
     @board_array[player_move[0]][player_move[1]] = 'Y'
   end
+
+  def check_plays(player_symbol); end
 end
+
+# def win(row, column)
+# end

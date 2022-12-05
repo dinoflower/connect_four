@@ -41,5 +41,5 @@ class Game
     @board.save_play(player_move)
   end
 
-  def check_winners(array); end
+  def check_winners(player_move); end
 end

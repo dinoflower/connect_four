@@ -6,13 +6,13 @@ describe Board do
   describe '#check_board' do
     subject(:verify_board) { described_class.new }
 
-    context 'when given an empty space on the board' do
+    context 'when given a legal move' do
       it 'returns the row and column as an array' do
         expect(verify_board.check_board(5, 3)).to match_array([5, 3])
       end
     end
 
-    context 'when given a space that is too high' do
+    context 'when given a space over an unoccupied space' do
       it 'returns nil' do
         expect(verify_board.check_board(4, 3)).to be_nil
       end
@@ -28,7 +28,7 @@ describe Board do
       end
     end
 
-    context 'when given a high space over an occupied space' do
+    context 'when given a space over an occupied and an unoccupied space' do
       before do
         allow(verify_board.board_array).to receive(:dig).with(5, 3).and_return('Y')
       end
