@@ -6,10 +6,13 @@ require_relative 'board'
 class Player
   ADJACENT_TILES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]].freeze
 
-  def initialize(name, color)
+  def initialize(name, color, board)
     @name = name
     @color = color
+    @board = board
   end
 
-  def won?; end
+  def won?
+    @board.check_plays(@color)
+  end
 end

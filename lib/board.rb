@@ -23,8 +23,7 @@ class Board
     @board_array[player_move[0]][player_move[1]] = 'Y'
   end
 
-  def check_plays(player_symbol); end
+  def check_plays(player_color)
+    # returns true or false
+  end
 end
-
-# def win(row, column)
-# end

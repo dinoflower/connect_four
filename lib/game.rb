@@ -15,7 +15,7 @@ class Game
   def create_player(color)
     puts 'Please enter your name:'
     name = gets.chomp.capitalize
-    Player.new(name, color)
+    Player.new(name, color, game_board)
   end
 
   def player_input
