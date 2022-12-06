@@ -24,6 +24,6 @@ class Board
   end
 
   def check_plays(player_color)
-    # returns true or false
+    return false unless horizontal_win(player_color) || vertical_win(player_color) || diagonal_win(player_color)
   end
 end

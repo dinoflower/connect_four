@@ -48,4 +48,7 @@ describe Board do
       expect(update_board.board_array[play[0]][play[1]]).to eq('Y')
     end
   end
+
+  describe '#check_plays' do
+  end
 end

@@ -14,7 +14,8 @@ describe Game do
     end
 
     it 'create a player' do
-      expect(Player).to receive(:new).with('Kaedi', 'yellow')
+      board = game_player.instance_variable_get(:@board)
+      expect(Player).to receive(:new).with('Kaedi', 'yellow', board)
       game_player.create_player('yellow')
     end
   end
