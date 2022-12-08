@@ -19,8 +19,8 @@ class Board
     return [row, column] if board_array.dig(row, column).nil?
   end
 
-  def save_play(player_move)
-    @board_array[player_move[0]][player_move[1]] = 'Y'
+  def save_play(player_color, player_move)
+    @board_array[player_move[0]][player_move[1]] = player_color
   end
 
   def check_plays(player_color)

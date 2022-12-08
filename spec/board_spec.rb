@@ -43,8 +43,9 @@ describe Board do
     subject(:update_board) { described_class.new }
 
     it 'updates the game board' do
+      color = 'Y'
       play = [5, 3]
-      update_board.save_play(play)
+      update_board.save_play(color, play)
       expect(update_board.board_array[play[0]][play[1]]).to eq('Y')
     end
   end

@@ -58,10 +58,10 @@ describe Game do
 
     context 'when the user inputs a valid but illegal move once and then a legal move' do
       before do
-        invalid_row = '4'
+        illegal_row = '4'
         valid_column = '3'
         valid_row = '5'
-        allow(game_input).to receive(:gets).and_return(invalid_row, valid_column, valid_row, valid_column)
+        allow(game_input).to receive(:gets).and_return(illegal_row, valid_column, valid_row, valid_column)
         allow(game_board).to receive(:check_board).and_return(nil, [valid_row, valid_column])
       end
 
@@ -78,11 +78,12 @@ describe Game do
     subject(:update_game) { described_class.new(save_board) }
 
     before do
+      allow(update_game.current_player).to receive(:color).and_return('Y')
       allow(update_game).to receive(:player_input).and_return([5, 3])
     end
 
     it 'sends the move to the board' do
-      expect(save_board).to receive(:save_play).with([5, 3])
+      expect(save_board).to receive(:save_play).with('Y', [5, 3])
       update_game.update_board
     end
   end

@@ -4,7 +4,7 @@ require_relative 'board'
 
 # players of connect four game
 class Player
-  ADJACENT_TILES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]].freeze
+  attr_reader :name, :color
 
   def initialize(name, color, board)
     @name = name
