@@ -22,10 +22,17 @@ class Game
   end
 
   def play_game
+    intro
     until @players.any?.won?
       update_board
-      swap_players
+      @current_player = swap_players
     end
+  end
+
+  def update_board
+    puts "#{@current_player.name}, make your move!"
+    player_move = player_input
+    @board.save_play(@current_player.color, player_move)
   end
 
   def player_input
@@ -45,15 +52,21 @@ class Game
     @board.check_board(row, column)
   end
 
-  def update_board
-    puts "#{@current_player.name}, make your move!"
-    player_move = player_input
-    @board.save_play(@current_player.color, player_move)
-  end
-
   def swap_players
-    @current_player = @current_player.color == 'Y' ? @players[1] : @players[0]
+    @current_player.color == 'Y' ? @players[1] : @players[0]
   end
 
-  def check_winners(player_move); end
+  def intro
+    puts <<~HEREDOC
+
+      Welcome to Connect Four!
+
+      The first player to match four of their pieces in a row wins.
+
+      Be careful - diagonals count, too!
+
+      #{current_player.name} is going first.
+
+    HEREDOC
+  end
 end

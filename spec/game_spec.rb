@@ -20,6 +20,9 @@ describe Game do
     end
   end
 
+  describe '#play_game' do
+  end
+
   describe '#player_input' do
     subject(:game_input) { described_class.new }
     let(:game_board) { double('board') }
@@ -85,6 +88,19 @@ describe Game do
     it 'sends the move to the board' do
       expect(save_board).to receive(:save_play).with('Y', [5, 3])
       update_game.update_board
+    end
+  end
+
+  describe '#swap_players' do
+    subject(:swap_game) { described_class.new }
+
+    it "ends the current player's turn" do
+      current_player = swap_game.current_player
+      expect(swap_game.swap_players).not_to eq(current_player)
+    end
+
+    it 'does not return nil' do
+      expect(swap_game.swap_players).not_to be_nil
     end
   end
 end
