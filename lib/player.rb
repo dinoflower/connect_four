@@ -15,8 +15,9 @@ class Player
   def won?
     6.times do |row|
       7.times do |column|
-        @board.check_lines(row, column, @color)
+        return true if @board.check_lines(row, column, @color)
       end
     end
+    false
   end
 end

@@ -23,16 +23,31 @@ class Game
 
   def play_game
     intro
-    until @players.any?.won?
-      update_board
-      @current_player = swap_players
-    end
+    player_turn
+    display_board
+    puts 'Game over. Thanks for playing!'
   end
 
-  def update_board
+  def player_turn
+    return if game_over?
+
+    display_board
     puts "#{@current_player.name}, make your move!"
     player_move = player_input
     @board.save_play(@current_player.color, player_move)
+    @current_player = swap_players
+  end
+
+  def game_over?
+    @players[0].won? || @players[1].won?
+  end
+
+  def display_board
+    print "    0 1 2 3 4 5 6\n"
+    print "    _ _ _ _ _ _ _\n"
+    @board_array.each_with_index do |row, i|
+      print "#{i}: |", row.map { |square| square.nil? ? '_' : square }.join('|'), "|\n"
+    end
   end
 
   def player_input

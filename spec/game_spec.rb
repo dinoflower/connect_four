@@ -60,7 +60,7 @@ describe Game do
     end
   end
 
-  describe '#update_board' do
+  describe '#player_turn' do
     let(:save_board) { instance_double(Board, board_array: Array.new(6) { Array.new(7) }) }
     subject(:update_game) { described_class.new(save_board) }
 
@@ -71,7 +71,7 @@ describe Game do
 
     it 'sends the move to the board' do
       expect(save_board).to receive(:save_play).with('Y', [5, 3])
-      update_game.update_board
+      update_game.player_turn
     end
   end
 
@@ -116,6 +116,21 @@ describe Game do
         expect(verify_board).to receive(:check_board).with(5, 3)
         verify_game.verify_input(5, 3)
       end
+    end
+  end
+
+  describe '#game_over?' do
+    let(:over_board) { instance_double(Board, board_array: Array.new(6) { Array.new(7) }) }
+    subject(:over_game) { described_class.new(over_board) }
+
+    before do
+      allow(over_board).to receive(:check_lines).exactly(42).times
+    end
+
+    it 'sends #won? to the players' do
+      players = over_game.instance_variable_get(:@players)
+      expect(players[0]).to receive(:won?)
+      over_game.game_over?
     end
   end
 end
