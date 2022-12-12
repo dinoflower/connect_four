@@ -13,6 +13,10 @@ class Player
   end
 
   def won?
-    @board.check_plays(@color)
+    6.times do |row|
+      7.times do |column|
+        @board.check_lines(row, column, @color)
+      end
+    end
   end
 end

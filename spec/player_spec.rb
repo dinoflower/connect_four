@@ -9,11 +9,11 @@ describe Player do
     subject(:check_players) { described_class.new('Kaedi', 'Y', check_board) }
 
     before do
-      allow(check_board).to receive(:check_plays).with('Y')
+      allow(check_board).to receive(:check_lines)
     end
 
     it 'sends check_plays to the board' do
-      expect(check_board).to receive(:check_plays).once
+      expect(check_board).to receive(:check_lines).and_return(false)
       check_players.won?
     end
   end

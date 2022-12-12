@@ -27,7 +27,7 @@ describe Game do
     subject(:game_input) { described_class.new }
     let(:game_board) { double('board') }
 
-    context 'when the space exists, is empty, and is legal' do
+    context 'when the user inputs valid values' do
       before do
         valid_row = '5'
         valid_column = '3'
@@ -49,22 +49,6 @@ describe Game do
         valid_row = '5'
         valid_column = '3'
         allow(game_input).to receive(:gets).and_return(invalid_row, invalid_column, valid_row, valid_column)
-        allow(game_board).to receive(:check_board).and_return(nil, [valid_row, valid_column])
-      end
-
-      it 'completes loop and displays the error message once' do
-        message = 'Input error! Please make a valid play.'
-        expect(game_input).to receive(:puts).with(message).once
-        game_input.player_input
-      end
-    end
-
-    context 'when the user inputs a valid but illegal move once and then a legal move' do
-      before do
-        illegal_row = '4'
-        valid_column = '3'
-        valid_row = '5'
-        allow(game_input).to receive(:gets).and_return(illegal_row, valid_column, valid_row, valid_column)
         allow(game_board).to receive(:check_board).and_return(nil, [valid_row, valid_column])
       end
 
@@ -101,6 +85,37 @@ describe Game do
 
     it 'does not return nil' do
       expect(swap_game.swap_players).not_to be_nil
+    end
+  end
+
+  describe '#verify_input' do
+    let(:verify_board) { double('board', board_array: Array.new(6) { Array.new(7) }) }
+    subject(:verify_game) { described_class.new(verify_board) }
+
+    context 'when given an invalid coordinate pair' do
+      before do
+        invalid_row = 8
+        invalid_column = 3
+        allow(verify_board).to receive(:check_board).with(invalid_row, invalid_column)
+      end
+
+      it 'does not send #check_board to the board' do
+        expect(verify_board).not_to receive(:check_board)
+        verify_game.verify_input(8, 3)
+      end
+    end
+
+    context 'when given a valid coordinate pair' do
+      before do
+        valid_row = 5
+        valid_column = 3
+        allow(verify_board).to receive(:check_board).with(valid_row, valid_column)
+      end
+
+      it 'sends #check_board to the board' do
+        expect(verify_board).to receive(:check_board).with(5, 3)
+        verify_game.verify_input(5, 3)
+      end
     end
   end
 end
