@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../lib/game'
-require_relative '../lib/player'
-require_relative '../lib/board'
+require_relative '../lib/connect_four/game'
+require_relative '../lib/connect_four/player'
+require_relative '../lib/connect_four/board'
 
 describe Game do
   describe '#create_player' do

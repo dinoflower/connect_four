@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../lib/player'
-require_relative '../lib/board'
+require_relative '../lib/connect_four/player'
+require_relative '../lib/connect_four/board'
 
 describe Player do
   describe '#won?' do

@@ -48,14 +48,6 @@ class Game
     @winner = @players[0].won? ? @players[0] : @players[1]
   end
 
-  def display_board
-    print "    0 1 2 3 4 5 6\n"
-    print "    _ _ _ _ _ _ _\n"
-    @board_array.each_with_index do |row, i|
-      print "#{i}: |", row.map { |square| square.nil? ? '_' : square }.join('|'), "|\n"
-    end
-  end
-
   def player_input
     loop do
       row = gets.chomp
@@ -77,6 +69,16 @@ class Game
     @current_player.color == 'Y' ? @players[1] : @players[0]
   end
 
+  private
+
+  def display_board
+    print "    0 1 2 3 4 5 6\n"
+    print "    _ _ _ _ _ _ _\n"
+    @board_array.each_with_index do |row, i|
+      print "#{i}: |", row.map { |square| square.nil? ? '_' : square }.join('|'), "|\n"
+    end
+  end
+
   def intro
     puts <<~HEREDOC
 
@@ -92,6 +94,6 @@ class Game
   end
 
   def announce_winner
-    puts "#{@winner} got four in a row!"
+    puts "#{@winner.name} got four in a row!"
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../lib/board'
+require_relative '../lib/connect_four/board'
 
 describe Board do
   describe '#check_board' do
