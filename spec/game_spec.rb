@@ -21,6 +21,31 @@ describe Game do
   end
 
   describe '#play_game' do
+    subject(:playing_game) { described_class.new }
+
+    context 'when the game is not over once and then over' do
+      before do
+        allow(playing_game).to receive(:intro).and_return(nil)
+        allow(playing_game).to receive(:player_turn).and_return(nil)
+        allow(playing_game).to receive(:display_board).and_return(nil)
+        allow(playing_game).to receive(:game_over?).and_return(false, true)
+      end
+
+      it 'calls #intro once' do
+        expect(playing_game).to receive(:intro).once
+        playing_game.play_game
+      end
+
+      it 'calls #player_turn twice' do
+        expect(playing_game).to receive(:player_turn).twice
+        playing_game.play_game
+      end
+
+      it 'calls #display_board twice' do
+        expect(playing_game).to receive(:display_board).twice
+        playing_game.play_game
+      end
+    end
   end
 
   describe '#player_input' do
@@ -64,12 +89,10 @@ describe Game do
     let(:save_board) { instance_double(Board, board_array: Array.new(6) { Array.new(7) }) }
     subject(:update_game) { described_class.new(save_board) }
 
-    before do
-      allow(update_game.current_player).to receive(:color).and_return('Y')
-      allow(update_game).to receive(:player_input).and_return([5, 3])
-    end
-
     it 'sends the move to the board' do
+      current_player = update_game.instance_variable_get(:@current_player)
+      allow(current_player).to receive(:color).and_return('Y')
+      allow(update_game).to receive(:player_input).and_return([5, 3])
       expect(save_board).to receive(:save_play).with('Y', [5, 3])
       update_game.player_turn
     end
@@ -79,7 +102,7 @@ describe Game do
     subject(:swap_game) { described_class.new }
 
     it "ends the current player's turn" do
-      current_player = swap_game.current_player
+      current_player = swap_game.instance_variable_get(:@current_player)
       expect(swap_game.swap_players).not_to eq(current_player)
     end
 
@@ -125,6 +148,7 @@ describe Game do
 
     before do
       allow(over_board).to receive(:check_lines).exactly(42).times
+      allow(over_board).to receive(:full?)
     end
 
     it 'sends #won? to the players' do
@@ -133,13 +157,53 @@ describe Game do
       over_game.game_over?
     end
 
-    context 'when no player has won' do
+    context 'when the game is not over' do
       before do
         allow(over_board).to receive(:check_lines).and_return(false)
+        allow(over_board).to receive(:full?).and_return(false)
       end
 
       it 'returns false' do
         expect(over_game.game_over?).to be false
+        over_game.game_over?
+      end
+    end
+
+    context 'when a player has won' do
+      it 'returns true' do
+        players = over_game.instance_variable_get(:@players)
+        allow(players[0]).to receive(:won?).and_return(true)
+        allow(over_board).to receive(:full?)
+        expect(over_game.game_over?).to be true
+        over_game.game_over?
+      end
+    end
+  end
+
+  describe '#winner?' do
+    let(:ending_board) { double('board', board_array: Array.new(6) { Array.new(7) }) }
+    subject(:ending_game) { described_class.new(ending_board) }
+
+    context 'when a player has won' do
+      before do
+        allow(ending_board).to receive(:full?).and_return(false)
+      end
+
+      it 'declares that player the winner' do
+        players = ending_game.instance_variable_get(:@players)
+        winning_player = players[0]
+        allow(winning_player).to receive(:won?).and_return(true)
+        expect(ending_game.winner?).to eq(winning_player)
+      end
+    end
+
+    context 'when the board is full' do
+      before do
+        allow(ending_board).to receive(:full?).and_return(true)
+      end
+
+      it 'does not declare a winner' do
+        expect(ending_game.winner?).to be_nil
       end
     end
   end

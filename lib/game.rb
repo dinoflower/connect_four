@@ -5,14 +5,12 @@ require_relative 'board'
 
 # game portion of connect four
 class Game
-  attr_accessor :board_array
-  attr_reader :current_player
-
   def initialize(game_board = Board.new)
     @board = game_board
     @board_array = game_board.board_array
     @players = [create_player('Y'), create_player('R')]
     @current_player = @players.sample
+    @winner = nil
   end
 
   def create_player(color)
@@ -28,19 +26,26 @@ class Game
       display_board
       break if game_over?
     end
+    announce_winner if winner?
     puts 'Game over. Thanks for playing!'
   end
 
   def player_turn
     display_board
-    puts "#{@current_player.name}, make your move!"
+    puts "#{@current_player.name}, make your move! First enter the row (y), then the column (x)."
     player_move = player_input
     @board.save_play(@current_player.color, player_move)
     @current_player = swap_players
   end
 
   def game_over?
-    @players[0].won? || @players[1].won?
+    @players[0].won? || @players[1].won? || @board.full?
+  end
+
+  def winner?
+    return if @board.full?
+
+    @winner = @players[0].won? ? @players[0] : @players[1]
   end
 
   def display_board
@@ -81,8 +86,12 @@ class Game
 
       Be careful - diagonals count, too!
 
-      #{current_player.name} is going first.
+      #{@current_player.name} is going first.
 
     HEREDOC
+  end
+
+  def announce_winner
+    puts "#{@winner} got four in a row!"
   end
 end

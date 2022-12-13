@@ -5,7 +5,7 @@ require_relative 'player'
 
 # board to store and display connect four game
 class Board
-  attr_accessor :board_array
+  attr_reader :board_array
 
   def initialize
     @board_array = Array.new(6) { Array.new(7) }
@@ -70,5 +70,9 @@ class Board
                    @board_array[row + 3][column + 3] == player_color
 
     false
+  end
+
+  def full?
+    @board_array.all? { |row| row.none?(nil) }
   end
 end
