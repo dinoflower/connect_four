@@ -132,5 +132,15 @@ describe Game do
       expect(players[0]).to receive(:won?)
       over_game.game_over?
     end
+
+    context 'when no player has won' do
+      before do
+        allow(over_board).to receive(:check_lines).and_return(false)
+      end
+
+      it 'returns false' do
+        expect(over_game.game_over?).to be false
+      end
+    end
   end
 end

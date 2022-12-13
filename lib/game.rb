@@ -23,14 +23,15 @@ class Game
 
   def play_game
     intro
-    player_turn
-    display_board
+    loop do
+      player_turn
+      display_board
+      break if game_over?
+    end
     puts 'Game over. Thanks for playing!'
   end
 
   def player_turn
-    return if game_over?
-
     display_board
     puts "#{@current_player.name}, make your move!"
     player_move = player_input
